@@ -102,7 +102,7 @@
     font: inherit;
     vertical-align: baseline;
   }
-  /* HTML5 display-role reset for older browsers */
+
   article,
   aside,
   details,
@@ -138,4 +138,24 @@
     border-collapse: collapse;
     border-spacing: 0;
   }
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: all ease-in 0.1s;
+}
+html {
+  font-size: 10px;
+  scroll-behavior: smooth;
+  font-family: yekRegular;
+}
+body {
+  width: 100%;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+.bgGradient{
+  background: linear-gradient(#8439F6 50%, #ffffff 50%)
 }

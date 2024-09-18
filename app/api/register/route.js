@@ -1,0 +1,34 @@
+import { cookies } from "next/headers";
+import connectToDb from "../../../configs/db";
+import userModel from "../../../models/user";
+import { generateToken } from "@/utils/authTools";
+
+export async function POST(req) {
+  try {
+    const { userName } = await req.json();
+    connectToDb();
+    const userBeforeRegister = await userModel.findOne({ userName }, "_id");
+
+    if (!!userBeforeRegister) {
+      return Response.json({
+        message: "این نام کاربری استفاده شده است",
+        status: 400,
+      });
+    }
+
+    await userModel.create({ userName, score: 0 });
+
+    const token = generateToken({ userName }, process.env.privateKey);
+
+    cookies().set("token", token, {
+      path: "/",
+      httpOnly: true,
+    });
+
+    return Response.json({ message: "ثبت نام شدید", status: 200 });
+  } catch (error) {
+    console.log("=====> ", error);
+
+    return Response.json({ message: "اینترنت خود را بررسی کنید", status: 500 });
+  }
+}

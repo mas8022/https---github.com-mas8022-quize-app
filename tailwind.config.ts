@@ -27,6 +27,7 @@ const config: Config = {
       colors: {
         first: "#ffffff",
         second: "#6d28d9",
+        third: "#f59e0b",
       },
       fontFamily: {
         bold: "yekBold",
@@ -35,7 +36,11 @@ const config: Config = {
     },
   },
   plugins: [
-    function ({ addVariant }: { addVariant: (name: string, style: string) => void }) {
+    function ({
+      addVariant,
+    }: {
+      addVariant: (name: string, style: string) => void;
+    }) {
       addVariant("child", "& > *");
       addVariant("child-hover", "& > *:hover");
     },
