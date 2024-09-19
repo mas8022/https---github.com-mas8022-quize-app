@@ -1,7 +1,10 @@
 import React, { memo } from "react";
 
 const page = memo(({ params }) => {
-  const category = params.category;
+  const category = decodeURIComponent(params.category);
+
+  console.log(category);
+  
 
   return <div>page</div>;
 });
