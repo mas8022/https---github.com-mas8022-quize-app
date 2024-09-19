@@ -16,7 +16,11 @@ export async function POST(req) {
       });
     }
 
-    await userModel.create({ userName, score: 0 });
+    const usersLength = await userModel.countDocuments({});
+
+    const role = usersLength > 0 ? "USER" : "ADMIN";
+
+    await userModel.create({ userName, score: 0, role });
 
     const token = generateToken({ userName }, process.env.privateKey);
 

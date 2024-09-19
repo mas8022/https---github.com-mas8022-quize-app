@@ -3,6 +3,7 @@ import React from "react";
 import { isMe } from "@/utils/me";
 import Image from "next/image";
 import SelectMode from "@/app/components/template/selectMode";
+import Link from "next/link";
 const page = async () => {
   const registered = await isMe();
   if (!registered) {
@@ -10,8 +11,9 @@ const page = async () => {
   }
 
   return (
-    <div className="w-full h-screen px-8 py-8">
-      <div className="w-full h-12 flex items-center justify-between mb-12">
+    <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between gap-4">
+     <div className="w-full flex flex-col items-center gap-4">
+     <div className="w-full h-12 flex items-center justify-between">
         <span className="text-first/90 text-[1.7rem] font-bold">Masproo22</span>
         <div className="h-full bg-first/5 px-6 py-3 flex items-center gap-4 rounded-3xl">
           <Image
@@ -25,6 +27,10 @@ const page = async () => {
         </div>
       </div>
       <SelectMode />
+     </div>
+      <Link href="/createQuestion" className="text-first/60 text-xl">
+        ایا می خواهید سوال ایجاد کنید؟
+      </Link>
     </div>
   );
 };

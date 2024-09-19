@@ -9,6 +9,10 @@ const schema = new Schema({
     type: Number,
     default: 0,
   },
+  role: {
+    type: String,
+    required: true,
+  },
 });
 
 const model = mongoose.models?.User || mongoose.model("User", schema);
