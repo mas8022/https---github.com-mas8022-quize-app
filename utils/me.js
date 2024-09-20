@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import connectToDb from "../configs/db";
 import { verifyToken } from "./authTools";
-import userModel from '@/models/user'
+import userModel from "@/models/user";
 
 async function isMe() {
   connectToDb();
@@ -21,4 +21,22 @@ async function isMe() {
   }
 }
 
-export { isMe };
+async function me() {
+  connectToDb();
+  const token = cookies().get("token")?.value;
+
+  const tokenPayload = verifyToken(token, process.env.privateKey);
+
+  const user = await userModel.findOne(
+    { userName: tokenPayload?.userName },
+    "-__v"
+  );
+
+  if (!!user) {
+    return user;
+  } else {
+    return null;
+  }
+}
+
+export { isMe, me };

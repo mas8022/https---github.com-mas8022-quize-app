@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/user.js", "models/question.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/user.js", "models/question.js", "app/components/template/registerForm.js", "app/components/template/selectMode.js", "app/components/template/offline.ts", "app/components/template/confirmQuestion.js", "app/createQuestion/page.tsx", "app/cms/page.tsx"],
   "exclude": ["node_modules"]
 }

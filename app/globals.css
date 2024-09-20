@@ -176,3 +176,8 @@ input:focus {
   outline: none;
   border: 0;
 }
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -94,37 +94,49 @@ const page = memo(() => {
           <div className="grid grid-cols-3 gap-2">
             <div
               onClick={() => setCategory("ریاضی")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "ریاضی" && "borderSelectCategory"
+              }`}
             >
               ریاضی
             </div>
             <div
               onClick={() => setCategory("ورزش")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "ورزش" && "borderSelectCategory"
+              }`}
             >
               ورزش
             </div>
             <div
               onClick={() => setCategory("غذا و خوراکی")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "غذا و خوراکی" && "borderSelectCategory"
+              }`}
             >
               غذا و خوراکی
             </div>
             <div
               onClick={() => setCategory("حیوانات")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "حیوانات" && "borderSelectCategory"
+              }`}
             >
               حیوانات
             </div>
             <div
               onClick={() => setCategory("زبان انگیلیسی")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "زبان انگیلیسی" && "borderSelectCategory"
+              }`}
             >
               زبان انگیلیسی
             </div>
             <div
               onClick={() => setCategory("بازی های یارانه ای")}
-              className="w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%]"
+              className={`w-40 h-12 bg-first/5 text-first/70 text-[1.3rem] rounded-lg flex items-center justify-center active:scale-[99%] ${
+                category === "بازی های یارانه ای" && "borderSelectCategory"
+              }`}
             >
               بازی های یارانه ای
             </div>
