@@ -49,8 +49,6 @@ const ConfirmQuestion = memo(({ questionsData }) => {
           toast.error(result.message);
         }
       });
-
-    console.log(questionsData, turn);
   };
 
   const deleteQuestion = async () => {

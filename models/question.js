@@ -29,6 +29,9 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
+  correctAnswer: {
+    type: String,
+  },
 });
 
 const model = mongoose.models?.Question || mongoose.model("Question", schema);

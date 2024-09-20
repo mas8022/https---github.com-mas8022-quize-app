@@ -56,7 +56,6 @@ export async function DELETE(req) {
 
     return Response.json({ message: "سوال حذف شد", status: 200 });
   } catch (error) {
-    console.log("=====> ", error);
     
     return Response.json({ message: "اینترنت خود را بررسی کنید", status: 500 });
   }

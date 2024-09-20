@@ -31,8 +31,6 @@ export async function POST(req) {
 
     return Response.json({ message: "ثبت نام شدید", status: 200 });
   } catch (error) {
-    console.log("=====> ", error);
-
     return Response.json({ message: "اینترنت خود را بررسی کنید", status: 500 });
   }
 }
