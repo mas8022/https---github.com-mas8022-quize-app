@@ -3,34 +3,33 @@ import React, { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 const ConfirmQuestion = memo(({ questionsData }) => {
   const [turn, setTurn] = useState(0);
-  const [question, setQuestion] = useState(questionsData[turn]?.question);
-  const [answerOne, setAnswerOne] = useState(questionsData[turn]?.answerOne);
-  const [answerTwo, setAnswerTwo] = useState(questionsData[turn]?.answerTwo);
-  const [answerThree, setAnswerThree] = useState(
-    questionsData[turn]?.answerThree
-  );
-  const [answerFour, setAnswerFour] = useState(questionsData[turn]?.answerFour);
-  const [category, setCategory] = useState(questionsData[turn]?.category);
+  const [questions, setQuestions] = useState(questionsData);
+  const [question, setQuestion] = useState(questions[turn]?.question);
+  const [answerOne, setAnswerOne] = useState(questions[turn]?.answerOne);
+  const [answerTwo, setAnswerTwo] = useState(questions[turn]?.answerTwo);
+  const [answerThree, setAnswerThree] = useState(questions[turn]?.answerThree);
+  const [answerFour, setAnswerFour] = useState(questions[turn]?.answerFour);
+  const [category, setCategory] = useState(questions[turn]?.category);
 
   useEffect(() => {
-    if (!!questionsData[turn]) {
-      setQuestion(questionsData[turn].question);
-      setAnswerOne(questionsData[turn].answerOne);
-      setAnswerTwo(questionsData[turn].answerTwo);
-      setAnswerThree(questionsData[turn].answerThree);
-      setAnswerFour(questionsData[turn].answerFour);
-      setCategory(questionsData[turn].category);
+    if (!!questions[turn]) {
+      setQuestion(questions[turn].question);
+      setAnswerOne(questions[turn].answerOne);
+      setAnswerTwo(questions[turn].answerTwo);
+      setAnswerThree(questions[turn].answerThree);
+      setAnswerFour(questions[turn].answerFour);
+      setCategory(questions[turn].category);
     }
   }, [turn]);
 
   const confirmQuestion = async () => {
-    fetch("/api/confirmQuestion", {
+    await fetch("/api/confirmQuestion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        _id: questionsData[turn]._id,
+        _id: questions[turn]._id,
         question,
         answerOne,
         answerTwo,
@@ -50,16 +49,18 @@ const ConfirmQuestion = memo(({ questionsData }) => {
           toast.error(result.message);
         }
       });
+
+    console.log(questionsData, turn);
   };
 
-  const deleteQuestion = () => {
-    fetch("/api/confirmQuestion", {
+  const deleteQuestion = async () => {
+    await fetch("/api/confirmQuestion", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        _id: questionsData[turn]._id,
+        _id: questions[turn]._id,
       }),
     })
       .then((res) => res.json())
@@ -75,7 +76,7 @@ const ConfirmQuestion = memo(({ questionsData }) => {
 
   return (
     <>
-      {questionsData?.length ? (
+      {questions?.length && questions.length !== turn ? (
         <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between">
           <div className="w-full flex flex-col items-center gap-6">
             <textarea
