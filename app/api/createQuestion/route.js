@@ -10,6 +10,7 @@ export async function POST(req) {
       answerThree,
       answerFour,
       category,
+      correctAnswer,
     } = await req.json();
 
     if (
@@ -18,7 +19,14 @@ export async function POST(req) {
       answerTwo.trim() &&
       answerThree.trim() &&
       answerFour.trim() &&
-      category.trim()
+      category.trim() &&
+      correctAnswer.trim() &&
+      [
+        answerOne.trim(),
+        answerTwo.trim(),
+        answerThree.trim(),
+        answerFour,
+      ].includes(correctAnswer.trim())
     ) {
       connectToDb();
       await questionModel.create({
@@ -28,6 +36,8 @@ export async function POST(req) {
         answerThree,
         answerFour,
         category,
+        publish: false,
+        correctAnswer,
       });
 
       return Response.json({ message: "سوال فرستاده شد", status: 200 });

@@ -10,6 +10,7 @@ const ConfirmQuestion = memo(({ questionsData }) => {
   const [answerThree, setAnswerThree] = useState(questions[turn]?.answerThree);
   const [answerFour, setAnswerFour] = useState(questions[turn]?.answerFour);
   const [category, setCategory] = useState(questions[turn]?.category);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   useEffect(() => {
     if (!!questions[turn]) {
@@ -19,6 +20,7 @@ const ConfirmQuestion = memo(({ questionsData }) => {
       setAnswerThree(questions[turn].answerThree);
       setAnswerFour(questions[turn].answerFour);
       setCategory(questions[turn].category);
+      setCorrectAnswer(questions[turn].correctAnswer);
     }
   }, [turn]);
 
@@ -76,7 +78,7 @@ const ConfirmQuestion = memo(({ questionsData }) => {
     <>
       {questions?.length && questions.length !== turn ? (
         <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between">
-          <div className="w-full flex flex-col items-center gap-6">
+          <div className="w-full flex flex-col items-center gap-4">
             <textarea
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
@@ -109,8 +111,15 @@ const ConfirmQuestion = memo(({ questionsData }) => {
               value={answerFour}
               onChange={(e) => setAnswerFour(e.target.value)}
               type="text"
-              className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+              className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold mb-6"
               placeholder="جواب چهار"
+            />
+            <input
+              value={correctAnswer}
+              onChange={(e) => setCorrectAnswer(e.target.value)}
+              type="text"
+              className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+              placeholder="جواب درست"
             />
           </div>
 
