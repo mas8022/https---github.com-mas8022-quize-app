@@ -181,3 +181,6 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
+.startButtonShadow{
+  box-shadow: 0px 0px 20px 5px #22C55E;
+}

@@ -18,7 +18,7 @@ const page = async () => {
 
   return (
     <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between gap-4">
-      <div className="w-full flex flex-col items-center gap-4">
+      <div className="w-full h-full flex flex-col items-center gap-4">
         <div className="w-full h-12 flex items-center justify-between gap-7">
           <span className="text-first/90 text-[1.7rem] font-bold">
             {meData.userName}
