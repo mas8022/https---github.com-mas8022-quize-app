@@ -150,9 +150,17 @@ html {
   scroll-behavior: smooth;
   font-family: yekRegular;
 }
+
 body {
   width: 100%;
   background: #6d28d9;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -190,11 +198,11 @@ input:focus {
 .chat-body::-webkit-scrollbar {
   display: none;
 }
-.my-message{
+.my-message {
   box-shadow: 0px 0px 20px 1px #4eff8f;
   text-shadow: 0px 0px 40px #000;
 }
-.you-message{
-  box-shadow: 0px 0px 20px 1px #f59e0b;
+.you-message {
+  box-shadow: 0px 0px 20px 1px #f59f0b93;
   text-shadow: 0px 0px 40px #000;
 }

@@ -7,7 +7,7 @@ const page = memo(({ params }) => {
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-between">
-      <div className="w-full h-24 px-8 flex items-center justify-between shadow-md">
+      <div className="w-full h-24 px-8 flex items-center justify-between shadow-md bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
         <span className="text-2xl font-bold text-first/80">{search}</span>
         <div className="h-full flex items-center gap-3">
           <div className="size-4 bg-green-600 rounded-full shadow-md"></div>
@@ -20,14 +20,14 @@ const page = memo(({ params }) => {
         style={{ backgroundImage: 'url("/images/bg-chat.png")' }}
       >
         <div className="my-message self-end text-center drop-shadow-2xl bg-gradient-to-r max-w-[17rem] p-4 from-[#42ff5e] to-[#22c55e] rounded-lg shadow-lg text-2xl font-bold text-first/90">
-          سلام سجاد خوبی چه خبرا
+          سلام اندیا خوبی چه خبرا
         </div>
         <div className="you-message text-center drop-shadow-2xl bg-gradient-to-r max-w-[17rem] p-4 from-[#ffdb49] to-[#f59e0b] rounded-lg shadow-lg text-2xl font-bold text-first/90">
-          فدات عالی ام تو چه خبرا حاجی
+          فدات عالی ام تو چه خبرا
         </div>
       </div>
 
-      <div className="w-full min-h-32 px-7 py-7 chatToolsShadow flex items-center justify-between gap-4">
+      <div className="w-full px-7 py-6 chatToolsShadow flex items-center justify-between gap-4 bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
         <div className="w-full h-full bg-black/15 shadow-md px-6 flex items-center justify-between rounded-full gap-4">
           <input
             className="w-full h-full p-0 bg-transparent text-2xl font-bold text-first/80 rtl pb-1"
