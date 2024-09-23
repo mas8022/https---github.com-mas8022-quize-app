@@ -4,10 +4,18 @@ import React, { useState } from "react";
 import { memo } from "react";
 import { HashLoader } from "react-spinners";
 import { useSanitizeInput } from "mas22/useSanitizeInput/useSanitizeInput";
+import { useRouter } from "next/navigation";
 
 const Online = memo(() => {
+  const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState("");
+
+  const directTOChat = (e) => {
+    if (e.key === "Enter" && search.trim()) {
+      router.push(`chat/${search.trim()}`);
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-40">
@@ -17,13 +25,13 @@ const Online = memo(() => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
-            class="size-10 stroke-white active:scale-95"
+            className="size-10 stroke-white active:scale-95"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
             />
           </svg>
@@ -31,6 +39,7 @@ const Online = memo(() => {
         <input
           type="text"
           value={search}
+          onKeyPress={(e) => directTOChat(e)}
           onChange={(e) => setSearch(useSanitizeInput(e.target.value))}
           placeholder="نام کاربریه کاربر مورد نظر خود را بنویسید"
           className="w-full h-full text-2xl font-bold text-first/80 bg-transparent p-0 rtl"
