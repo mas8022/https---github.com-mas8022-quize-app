@@ -20,7 +20,7 @@ const page = memo(({ params }) => {
         style={{ backgroundImage: 'url("/images/bg-chat.png")' }}
       >
         <div className="my-message self-end text-center drop-shadow-2xl bg-gradient-to-r max-w-[17rem] p-4 from-[#42ff5e] to-[#22c55e] rounded-lg shadow-lg text-2xl font-bold text-first/90">
-          سلام اندیا خوبی چه خبرا
+          سلام سینا خوبی چه خبرا
         </div>
         <div className="you-message text-center drop-shadow-2xl bg-gradient-to-r max-w-[17rem] p-4 from-[#ffdb49] to-[#f59e0b] rounded-lg shadow-lg text-2xl font-bold text-first/90">
           فدات عالی ام تو چه خبرا
