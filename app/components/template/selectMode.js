@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { memo } from "react";
 import Offline from "@/app/components/template/offline";
 import Online from "@/app/components/template/Online";
@@ -7,7 +7,7 @@ import { useLocalStorage } from "mas22/useLocalStorage/useLocalStorage";
 
 const SelectMode = memo(() => {
   const [mode, setMode] = useLocalStorage("gameMode", "offline");
-  
+
   return (
     <div className="w-full h-full flex flex-col items-center gap-10">
       <div className="w-full h-20 px-20 flex items-center justify-center gap-10 bg-black/5">

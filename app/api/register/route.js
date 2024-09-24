@@ -20,7 +20,7 @@ export async function POST(req) {
 
     const role = usersLength > 0 ? "USER" : "ADMIN";
 
-    await userModel.create({ userName, score: 0, role });
+    await userModel.create({ userName, score: 0, role, status: "online" });
 
     const token = generateToken({ userName }, process.env.privateKey);
 

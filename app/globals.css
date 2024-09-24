@@ -144,6 +144,7 @@
   margin: 0;
   box-sizing: border-box;
   transition: all ease-in 0.1s;
+  cursor: default !important;
 }
 html {
   font-size: 10px;
@@ -205,4 +206,22 @@ input:focus {
 .you-message {
   box-shadow: 0px 0px 20px 1px #f59f0b93;
   text-shadow: 0px 0px 40px #000;
+}
+.startGameContainer {
+  box-shadow: inset 0px 0px 20px 5px #58007e;
+}
+.startGameContainer--alert {
+  animation: alertGame infinite 0.3s;
+}
+
+@keyframes alertGame {
+  0% {
+    box-shadow: inset 0px 0px 20px 5px #ff2f00;
+  }
+  50% {
+    box-shadow: inset 0px 0px 20px 5px #ffc400;
+  }
+  100% {
+    box-shadow: inset 0px 0px 20px 5px #ff006a;
+  }
 }
