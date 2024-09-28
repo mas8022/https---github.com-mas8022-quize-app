@@ -1,7 +1,7 @@
-import { cookies } from "next/headers";
-import connectToDb from "../configs/db";
-import { verifyToken } from "./authTools";
-import userModel from "@/models/user";
+import { cookies } from "next/headers.js";
+import connectToDb from "../configs/db.js";
+import { verifyToken } from "./authTools.js";
+import userModel from "../models/user.js";
 
 async function isMe() {
   connectToDb();
@@ -24,14 +24,11 @@ async function isMe() {
 async function me() {
   connectToDb();
   const token = cookies().get("token")?.value;
-
   const tokenPayload = verifyToken(token, process.env.privateKey);
-
   const user = await userModel.findOne(
     { userName: tokenPayload?.userName },
     "-__v"
   );
-
   if (!!user) {
     return user;
   } else {

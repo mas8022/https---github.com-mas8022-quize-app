@@ -2,24 +2,31 @@
 import { useRouter } from "next/navigation";
 import React, { memo, useEffect, useState } from "react";
 import swal from "sweetalert";
+import { QuestionType } from "@/types";
 
-const Quiz = memo(({ questionsData }) => {
+const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
   const router = useRouter();
-  const [question, setQuestion] = useState(questionsData[0].question);
+  const [question, setQuestion] = useState<string>(questionsData[0].question);
   const [turn, setTurn] = useState(0);
   const [time, setTime] = useState(45); // The duration of the game
   const [score, setScore] = useState(0);
-  const [answerOne, setAnswerOne] = useState(questionsData[turn].answerOne);
-  const [answerTwo, setAnswerTwo] = useState(questionsData[turn].answerTwo);
-  const [answerThree, setAnswerThree] = useState(
+  const [answerOne, setAnswerOne] = useState<string>(
+    questionsData[turn].answerOne
+  );
+  const [answerTwo, setAnswerTwo] = useState<string>(
+    questionsData[turn].answerTwo
+  );
+  const [answerThree, setAnswerThree] = useState<string>(
     questionsData[turn].answerThree
   );
-  const [answerFour, setAnswerFour] = useState(questionsData[turn].answerFour);
-  const [correctAnswer, setCorrectAnswer] = useState(
+  const [answerFour, setAnswerFour] = useState<string>(
+    questionsData[turn].answerFour
+  );
+  const [correctAnswer, setCorrectAnswer] = useState<string>(
     questionsData[turn].correctAnswer
   );
 
-  const selectAnswer = async (answer) => {
+  const selectAnswer = async (answer: string) => {
     if (turn !== questionsData?.length - 1) {
       setTurn((p) => p + 1);
     }
@@ -79,12 +86,12 @@ const Quiz = memo(({ questionsData }) => {
   }, [time]);
 
   return (
-    <div
-      className={`w-full h-screen bg-[url(/images/bg-question.png)] object-cover startGameContainer ${
-        time <= 10 && "startGameContainer--alert"
-      }`}
-    >
-      <div className="w-full h-full px-8 py-8 flex flex-col items-center justify-between backdrop-blur-sm">
+    <>
+      <div
+        className={`w-full h-screen bg-[url(/images/bg-question.png)] object-cover startGameContainer ${
+          time <= 10 ? "startGameContainer--alert" : ""
+        }`}
+      >
         <div className="w-full min-h-56 center p-12 bg-first shadow-lg text-black/70 text-3xl rounded-lg text-center font-bold">
           {question}
         </div>
@@ -124,7 +131,8 @@ const Quiz = memo(({ questionsData }) => {
           پایان بازی
         </div>
       </div>
-    </div>
+      <div className="w-full h-full px-8 py-8 flex flex-col items-center justify-between backdrop-blur-sm"></div>
+    </>
   );
 });
 

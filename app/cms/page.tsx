@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import ConfirmQuestion from "../components/template/confirmQuestion";
 import questionModel from "@/models/question";
-import { questionType } from "@/types";
+import { QuestionType } from "@/types";
 import { redirect } from "next/navigation";
 import { me } from "@/utils/me";
 
@@ -13,7 +13,7 @@ const page = memo(async () => {
 
   const questions = (await questionModel
     .find({ publish: false })
-    .lean()) as questionType[];
+    .lean()) as QuestionType[];
 
   return (
     <ConfirmQuestion questionsData={JSON.parse(JSON.stringify(questions))} />

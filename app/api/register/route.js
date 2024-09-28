@@ -27,6 +27,7 @@ export async function POST(req) {
     cookies().set("token", token, {
       path: "/",
       httpOnly: true,
+      expires: new Date(Date.now() + 315576000000),
     });
 
     return Response.json({ message: "ثبت نام شدید", status: 200 });

@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { memo } from "react";
 import { HashLoader } from "react-spinners";
-import { useSanitizeInput } from "mas22/useSanitizeInput/useSanitizeInput";
+import { useSanitizeInput } from "@/utils/useSanitizeInput";
 import { useRouter } from "next/navigation";
 
 const Online = memo(() => {
@@ -11,7 +11,7 @@ const Online = memo(() => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState("");
 
-  const directTOChat = (e) => {
+  const directTOChat = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && search.trim()) {
       router.push(`chat/${search.trim()}`);
     }

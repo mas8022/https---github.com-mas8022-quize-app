@@ -5,6 +5,14 @@ export interface QuestionType {
   answerTwo: string;
   answerThree: string;
   answerFour: string;
+  correctAnswer: string;
   category: string;
   publish: boolean;
+}
+export interface MessageType {
+  _id: string;
+  sender: string;
+  receiver: string;
+  message: string;
+  createdAt: string;
 }

@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import questionModel from "@/models/question";
 import Quiz from "@/app/components/template/Quiz";
 
-const page = memo(async ({ params }) => {
+const page = memo(async ({ params }: { params: { category: string } }) => {
   const category = decodeURIComponent(params.category);
 
   const questions = await questionModel.aggregate([

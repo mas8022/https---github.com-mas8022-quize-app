@@ -1,4 +1,3 @@
-import { ContextProvider } from "../utils/context";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
@@ -22,7 +21,7 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        <ContextProvider>{children}</ContextProvider>
+        {children}
         <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>

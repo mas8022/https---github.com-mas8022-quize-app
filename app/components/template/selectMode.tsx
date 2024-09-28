@@ -1,9 +1,9 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { memo } from "react";
 import Offline from "@/app/components/template/offline";
 import Online from "@/app/components/template/Online";
-import { useLocalStorage } from "mas22/useLocalStorage/useLocalStorage";
+import { useLocalStorage } from "@/utils/useLocalStorage";
 
 const SelectMode = memo(() => {
   const [mode, setMode] = useLocalStorage("gameMode", "offline");
