@@ -172,6 +172,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  padding-bottom: 5.6rem;
 }
 body {
   display: flex;
