@@ -7,7 +7,6 @@ export const getSocketConnection = () => {
   if (socket) {
     return socket;
   }
-
   socket = io();
 
   return socket;

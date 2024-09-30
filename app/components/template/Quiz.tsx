@@ -88,7 +88,7 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
   return (
     <>
       <div
-        className={`w-full h-screen bg-[url(/images/bg-question.png)] object-cover startGameContainer ${
+        className={`fixed top-0 left-0 w-full h-screen p-7 bg-[url(/images/bg-question.png)] object-cover startGameContainer flex flex-col items-center gap-12 ${
           time <= 10 ? "startGameContainer--alert" : ""
         }`}
       >
@@ -131,7 +131,6 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
           پایان بازی
         </div>
       </div>
-      <div className="w-full h-full px-8 py-8 flex flex-col items-center justify-between backdrop-blur-sm"></div>
     </>
   );
 });

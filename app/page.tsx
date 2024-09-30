@@ -17,7 +17,7 @@ const page = async () => {
   });
 
   return (
-    <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between gap-4">
+    <div className="w-full h-screen px-8 py-8 pt-2 flex flex-col items-center justify-between gap-4">
       <div className="w-full h-full flex flex-col items-center gap-4">
         <div className="w-full h-12 flex items-center justify-between gap-7">
           <span className="text-first/90 text-[1.7rem] font-bold">
@@ -49,7 +49,7 @@ const page = async () => {
             </span>
           </div>
         </div>
-        <SelectMode />
+        <SelectMode meData={meData} />
       </div>
       <Link href="/createQuestion" className="text-first/60 text-xl">
         ایا می خواهید سوال ایجاد کنید؟

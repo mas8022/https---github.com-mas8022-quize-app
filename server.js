@@ -16,10 +16,9 @@ app.prepare().then(() => {
     cors: {
       origin: "http://localhost:3000",
       methods: ["GET", "POST"],
-      credentials: true
-    }
+      credentials: true,
+    },
   });
-  
 
   io.on("connection", (socket) => {
     socketFuncs(io, socket);

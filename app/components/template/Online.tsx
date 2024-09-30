@@ -5,8 +5,11 @@ import { memo } from "react";
 import { HashLoader } from "react-spinners";
 import { useSanitizeInput } from "@/utils/useSanitizeInput";
 import { useRouter } from "next/navigation";
+import { UserType } from "@/types";
+import { getSocketConnection } from "@/app/socket";
 
-const Online = memo(() => {
+const Online = memo(({ meData }: { meData: UserType }) => {
+  const socket = getSocketConnection();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState("");
@@ -17,8 +20,12 @@ const Online = memo(() => {
     }
   };
 
+  const startGame = () => {
+    socket.emit("startGame", { myId: meData._id });
+  };
+
   return (
-    <div className="w-full h-full flex flex-col items-center gap-40">
+    <div className="w-full h-full flex flex-col items-center gap-32">
       <div className="w-full h-20 bg-black/5 rounded-xl flex items-center justify-between gap-8 px-6">
         <Link href={`/chat/${search.trim()}`}>
           <svg
@@ -45,12 +52,17 @@ const Online = memo(() => {
           className="w-full h-full text-2xl font-bold text-first/80 bg-transparent p-0 rtl"
         />
       </div>
-      <div className="w-full flex flex-col items-center gap-10">
+      <div className="w-full flex flex-col items-center gap-8">
         <div className="size-[20rem] center rounded-full bg-gradient-to-bl from-[#22C55E] to-[#22C55E]/90 startButtonShadow active:scale-[98%]">
           {loader ? (
             <HashLoader color="#8b5cf6" />
           ) : (
-            <span className="text-5xl text-first">شروع بازی</span>
+            <span
+              onClick={startGame}
+              className="size-full text-5xl text-first center"
+            >
+              شروع بازی
+            </span>
           )}
         </div>
         <p className="w-80 text-center text-2xl text-first/60 font-bold">

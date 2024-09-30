@@ -16,3 +16,11 @@ export interface MessageType {
   message: string;
   createdAt: string;
 }
+export interface UserType {
+  _id: string;
+  userName: string;
+  score: Number;
+  role: String;
+  status: String;
+  playStatus: String;
+}

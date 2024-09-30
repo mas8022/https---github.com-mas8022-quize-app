@@ -17,6 +17,10 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  playStatus: {
+    type: String,
+    required: true,
+  },
 });
 
 const model = mongoose.models?.User || mongoose.model("User", schema);

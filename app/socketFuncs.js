@@ -1,5 +1,6 @@
 import connectToDb from "../configs/db.js";
 import messageModel from "../models/message.js";
+import userModel from "../models/user.js";
 
 connectToDb();
 
@@ -30,12 +31,15 @@ function chat(io, socket) {
     socket.join(`${sender}-${receiver}`);
     socket.join(`${receiver}-${sender}`);
 
-    const messages = await messageModel.find({
-      $or: [
-        { sender, receiver },
-        { sender: receiver, receiver: sender },
-      ],
-    },"-__v -updatedAt")
+    const messages = await messageModel.find(
+      {
+        $or: [
+          { sender, receiver },
+          { sender: receiver, receiver: sender },
+        ],
+      },
+      "-__v -updatedAt"
+    );
 
     io.to(`${sender}-${receiver}`)
       .to(`${receiver}-${sender}`)
@@ -47,5 +51,13 @@ function chat(io, socket) {
       .to(`${sender}-${receiver}`)
       .to(`${receiver}-${sender}`)
       .emit("onlineStatus", isOnlineUser);
+  });
+
+  socket.on("startGame", async ({ myId }) => {
+    await userModel.findOneAndUpdate({ playStatus: "play" });
+    const findPlayer = await userModel.findOne({
+      playStatus: "play",
+      _id: { $ne: myId },
+    });
   });
 }

@@ -4,8 +4,9 @@ import { memo } from "react";
 import Offline from "@/app/components/template/offline";
 import Online from "@/app/components/template/Online";
 import { useLocalStorage } from "@/utils/useLocalStorage";
+import { UserType } from "@/types";
 
-const SelectMode = memo(() => {
+const SelectMode = memo(({ meData }: { meData: UserType }) => {
   const [mode, setMode] = useLocalStorage("gameMode", "offline");
 
   return (
@@ -29,7 +30,7 @@ const SelectMode = memo(() => {
         </div>
       </div>
 
-      {mode === "offline" ? <Offline /> : <Online />}
+      {mode === "offline" ? <Offline /> : <Online meData={meData}  />}
     </div>
   );
 });

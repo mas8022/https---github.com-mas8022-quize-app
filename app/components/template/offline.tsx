@@ -6,12 +6,12 @@ const Offline = memo(() => {
   const [category, setCategory] = useState<string | null>(null);
 
   return (
-    <div className="w-full h-full flex flex-col gap-9 items-center justify-between">
+    <div className="w-full h-full flex flex-col gap-5 items-center justify-between">
       <p className="text-first/60 font-bold text-2xl">
         یکی از موضوعات را انتخاب کرده و بازی را شروع کنید
       </p>
       <div className="w-full flex items-center justify-center">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-2">
           <div
             onClick={() => setCategory("ریاضی")}
             className={`${

@@ -51,7 +51,7 @@ const page = memo(() => {
 
   return (
     <div className="w-full h-screen px-8 py-8 flex flex-col items-center justify-between">
-      <div className="w-full flex flex-col items-center gap-4">
+      <div className="w-full flex flex-col items-center gap-2">
         <textarea
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
@@ -63,35 +63,35 @@ const page = memo(() => {
           value={answerOne}
           onChange={(e) => setAnswerOne(e.target.value)}
           type="text"
-          className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+          className="w-full h-14 rounded-2xl rtl text-2xl text-black/60 font-bold"
           placeholder="جواب یک"
         />
         <input
           value={answerTwo}
           onChange={(e) => setAnswerTwo(e.target.value)}
           type="text"
-          className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+          className="w-full h-14 rounded-2xl rtl text-2xl text-black/60 font-bold"
           placeholder="جواب دو"
         />
         <input
           value={answerThree}
           onChange={(e) => setAnswerThree(e.target.value)}
           type="text"
-          className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+          className="w-full h-14 rounded-2xl rtl text-2xl text-black/60 font-bold"
           placeholder="جواب سه"
         />
         <input
           value={answerFour}
           onChange={(e) => setAnswerFour(e.target.value)}
           type="text"
-          className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold mb-6"
+          className="w-full h-14 rounded-2xl rtl text-2xl text-black/60 font-bold mb-6"
           placeholder="جواب چهار"
         />
         <input
           value={correctAnswer}
           onChange={(e) => setCorrectAnswer(e.target.value)}
           type="text"
-          className="w-full h-16 rounded-2xl rtl text-2xl text-black/60 font-bold"
+          className="w-full h-14 rounded-2xl rtl text-2xl text-black/60 font-bold"
           placeholder="جواب درست"
         />
       </div>
