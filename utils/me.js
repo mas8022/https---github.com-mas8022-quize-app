@@ -36,4 +36,20 @@ async function me() {
   }
 }
 
-export { isMe, me };
+async function meId() {
+  connectToDb();
+  const token = cookies().get("token")?.value;
+  const tokenPayload = verifyToken(token, process.env.privateKey);
+  const me = await userModel.findOne(
+    { userName: tokenPayload?.userName },
+    "_id"
+  );
+  const meId = me._id;
+  if (!!meId) {
+    return meId;
+  } else {
+    return null;
+  }
+}
+
+export { isMe, me, meId };

@@ -49,7 +49,7 @@ const page = async () => {
             </span>
           </div>
         </div>
-        <SelectMode meData={meData} />
+        <SelectMode meData={JSON.parse(JSON.stringify(meData))} />
       </div>
       <Link href="/createQuestion" className="text-first/60 text-xl">
         ایا می خواهید سوال ایجاد کنید؟

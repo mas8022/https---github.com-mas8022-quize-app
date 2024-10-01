@@ -54,10 +54,43 @@ function chat(io, socket) {
   });
 
   socket.on("startGame", async ({ myId }) => {
-    await userModel.findOneAndUpdate({ playStatus: "play" });
-    const findPlayer = await userModel.findOne({
-      playStatus: "play",
-      _id: { $ne: myId },
-    });
+    try {
+      await userModel.findOneAndUpdate({ _id: myId }, { playStatus: "wait" });
+
+      const findOpponent = async () => {
+        return await userModel.findOne(
+          {
+            playStatus: "wait",
+            _id: { $ne: myId },
+          },
+          "socketId"
+        );
+      };
+
+      const intervalId = setInterval(async () => {
+        const findPlayer = await findOpponent();
+
+        if (findPlayer) {
+          clearInterval(intervalId);
+          console.log("data: ", findPlayer.socketId, " ", socket.id);
+
+          socket.emit("game-found", { opponentSocketId: findPlayer.socketId });
+          socket
+            .to(findPlayer.socketId)
+            .emit("game-found", { opponentSocketId: socket.id });
+
+          await userModel.findOneAndUpdate(
+            { _id: myId },
+            { playStatus: "playing" }
+          );
+          await userModel.findOneAndUpdate(
+            { _id: findPlayer._id },
+            { playStatus: "playing" }
+          );
+        }
+      }, 2000);
+    } catch (error) {
+      console.error("خطا در پیدا کردن بازیکن:", error);
+    }
   });
 }

@@ -22,7 +22,7 @@ const Online = memo(({ meData }: { meData: UserType }) => {
 
   const startGame = () => {
     socket.emit("startGame", { myId: meData._id });
-  };
+  };``
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-32">

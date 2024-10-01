@@ -21,6 +21,9 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  socketId: {
+    type: String,
+  },
 });
 
 const model = mongoose.models?.User || mongoose.model("User", schema);

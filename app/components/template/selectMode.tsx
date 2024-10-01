@@ -1,13 +1,35 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { memo } from "react";
 import Offline from "@/app/components/template/offline";
 import Online from "@/app/components/template/Online";
 import { useLocalStorage } from "@/utils/useLocalStorage";
 import { UserType } from "@/types";
+import { getSocketConnection } from "@/app/socket";
 
 const SelectMode = memo(({ meData }: { meData: UserType }) => {
+  const socket = getSocketConnection();
   const [mode, setMode] = useLocalStorage("gameMode", "offline");
+
+  useEffect(() => {
+    if (meData._id) {
+      socket.on("connect", () => {
+        if (meData._id) {
+          fetch("/api/setSocketId", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ meId: meData._id, socketId: socket.id }),
+          });
+        }
+      });
+
+      return () => {
+        socket.off("connect");
+      };
+    }
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-10">
@@ -30,7 +52,7 @@ const SelectMode = memo(({ meData }: { meData: UserType }) => {
         </div>
       </div>
 
-      {mode === "offline" ? <Offline /> : <Online meData={meData}  />}
+      {mode === "offline" ? <Offline /> : <Online meData={meData} />}
     </div>
   );
 });
