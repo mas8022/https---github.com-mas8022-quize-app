@@ -5,10 +5,6 @@ import userModel from "../models/user.js";
 connectToDb();
 
 export default async function socketFuncs(io, socket) {
-  chat(io, socket);
-}
-
-function chat(io, socket) {
   socket.on("sendMessage", async ({ sender, receiver, message }) => {
     // Zakhire kardane payam dar database
     await messageModel.create({ sender, receiver, message });
@@ -72,12 +68,11 @@ function chat(io, socket) {
 
         if (findPlayer) {
           clearInterval(intervalId);
-          console.log("data: ", findPlayer.socketId, " ", socket.id);
 
-          socket.emit("game-found", { opponentSocketId: findPlayer.socketId });
+          socket.emit("game-found", { myId, youId: findPlayer._id });
           socket
             .to(findPlayer.socketId)
-            .emit("game-found", { opponentSocketId: socket.id });
+            .emit("game-found", { myId, youId: findPlayer._id });
 
           await userModel.findOneAndUpdate(
             { _id: myId },

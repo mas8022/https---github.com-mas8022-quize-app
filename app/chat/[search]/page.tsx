@@ -34,7 +34,7 @@ const Page = memo(({ params }: { params: { search: string } }) => {
       });
 
     socket.on("onlineStatus", (data: Boolean) => {
-      console.log("is: ", data);
+      //code
     });
   }, []);
 

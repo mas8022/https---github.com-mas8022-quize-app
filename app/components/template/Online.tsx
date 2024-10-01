@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { memo } from "react";
 import { HashLoader } from "react-spinners";
 import { useSanitizeInput } from "@/utils/useSanitizeInput";
@@ -20,9 +20,37 @@ const Online = memo(({ meData }: { meData: UserType }) => {
     }
   };
 
+  useEffect(() => {
+    socket.on(
+      "game-found",
+      async ({ myId, youId }: { myId: string; youId: string }) => {
+        await router.replace(`/pvp/${myId}/${youId}`);
+      }
+    );
+
+    if (meData._id) {
+      socket.on("connect", () => {
+        if (meData._id) {
+          fetch("/api/setSocketId", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ meId: meData._id, socketId: socket.id }),
+          });
+        }
+      });
+
+      return () => {
+        socket.off("connect");
+      };
+    }
+  }, []);
+
   const startGame = () => {
     socket.emit("startGame", { myId: meData._id });
-  };``
+  };
+  ``;
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-32">
