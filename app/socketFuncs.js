@@ -94,8 +94,6 @@ export default async function socketFuncs(io, socket) {
       "temporaryScore socketId userName"
     );
 
-    console.log("myData: ", myData);
-
     const myScore = myData.temporaryScore;
 
     const playerData = await userModel.findOne(
@@ -106,9 +104,15 @@ export default async function socketFuncs(io, socket) {
 
     console.log(myData.userName, playerScore);
 
-    myScore > playerScore
-      ? socket.emit("result-game", true)
-      : socket.emit("result-game", false);
+    if (myScore > playerScore) {
+      await userModel.findOneAndUpdate(
+        { _id: myRealId },
+        { $inc: { score: myScore } }
+      );
+      socket.emit("result-game", true);
+    } else {
+      socket.emit("result-game", false);
+    }
 
     await userModel.findOneAndUpdate(
       { _id: playerOneId },

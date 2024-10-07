@@ -12,7 +12,7 @@ const QuizPVP = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
   const router = useRouter();
   const [question, setQuestion] = useState<string>(questionsData[0].question);
   const [turn, setTurn] = useState(0);
-  const [time, setTime] = useState(45); // The duration of the game
+  const [time, setTime] = useState(10); // The duration of the game
   const [score, setScore] = useState(0);
   const [myRealId, setMyRealId] = useState("");
 
@@ -58,14 +58,22 @@ const QuizPVP = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
       .then((data) => setMyRealId(data._id));
 
     socket.on("result-game", async (resultGame: Boolean) => {
-      swal({
-        icon: "success",
-        title: "پایان بازی",
-        text: resultGame
-          ? "شما در این مسابقه بردید"
-          : "شما در این مسابقه باختید",
-        closeOnClickOutside: false,
-      }).then(() => router.replace("/"));
+      if (resultGame) {
+        swal({
+          icon: "success",
+          title: "پایان بازی",
+          text: "شما در این مسابقه بردید",
+
+          closeOnClickOutside: false,
+        }).then(() => location.replace("/"));
+      } else {
+        swal({
+          icon: "error",
+          title: "پایان بازی",
+          text: "شما در این مسابقه باختید",
+          closeOnClickOutside: false,
+        }).then(() => router.replace("/"));
+      }
     });
   }, []);
 
