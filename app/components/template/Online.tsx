@@ -57,6 +57,7 @@ const Online = memo(({ meData }: { meData: UserType }) => {
   }, []);
 
   const startGame = () => {
+    setLoader(true);
     socket.emit("startGame", { myId: meData._id });
   };
 
@@ -91,7 +92,7 @@ const Online = memo(({ meData }: { meData: UserType }) => {
       <div className="w-full flex flex-col items-center gap-8">
         <div className="size-[20rem] center rounded-full bg-gradient-to-bl from-[#22C55E] to-[#22C55E]/90 startButtonShadow active:scale-[98%]">
           {loader ? (
-            <HashLoader color="#8b5cf6" />
+            <HashLoader color="#8b5cf6" size={100} />
           ) : (
             <span
               onClick={startGame}
