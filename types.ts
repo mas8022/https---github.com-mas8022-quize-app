@@ -23,4 +23,5 @@ export interface UserType {
   role: String;
   status: String;
   playStatus: String;
+  socketId: string;
 }

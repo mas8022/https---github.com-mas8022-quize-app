@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { ContextProvider } from "@/utils/context";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +22,7 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        {children}
+        <ContextProvider>{children}</ContextProvider>
         <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>

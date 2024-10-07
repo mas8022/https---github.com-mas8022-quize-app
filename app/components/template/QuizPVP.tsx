@@ -1,15 +1,21 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import swal from "sweetalert";
 import { QuestionType } from "@/types";
+import { getSocketConnection } from "@/app/socket";
+import { context } from "@/utils/context";
 
-const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
+const QuizPVP = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
+  const contextQuizPVP = useContext<any>(context);
+  const socket = getSocketConnection();
   const router = useRouter();
   const [question, setQuestion] = useState<string>(questionsData[0].question);
   const [turn, setTurn] = useState(0);
-  const [time, setTime] = useState(60); // The duration of the game
+  const [time, setTime] = useState(45); // The duration of the game
   const [score, setScore] = useState(0);
+  const [myRealId, setMyRealId] = useState("");
+
   const [answerOne, setAnswerOne] = useState<string>(
     questionsData[turn].answerOne
   );
@@ -33,29 +39,35 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
     if (answer === correctAnswer) {
       await setScore((p) => p + 25);
     }
+  };
 
-    if (turn === questionsData?.length - 1) {
+  useEffect(() => {
+    console.log("score: ", score);
+  }, [score]);
+
+  useEffect(() => {
+    fetch("/api/setPlayerStatusPlay", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contextQuizPVP.playersId),
+    });
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data) => setMyRealId(data._id));
+
+    socket.on("result-game", async (resultGame: Boolean) => {
       swal({
         icon: "success",
         title: "پایان بازی",
-        text: `مقدار سوالی که درست جواب دادید: %${score}`,
+        text: resultGame
+          ? "شما در این مسابقه بردید"
+          : "شما در این مسابقه باختید",
         closeOnClickOutside: false,
-      }).then(async () => {
-        await fetch("/api/calcScore", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ score }),
-        });
-        location.replace("/");
-      });
-    }
-  };
-
-  const exist = () => {
-    router.replace("/");
-  };
+      }).then(() => router.replace("/"));
+    });
+  }, []);
 
   useEffect(() => {
     if (!!questionsData[turn]) {
@@ -76,12 +88,23 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
 
       return () => clearInterval(timer);
     } else {
-      swal({
-        icon: "success",
-        title: "پایان بازی",
-        text: `مقدار سوالی که درست جواب دادید: %${score}`,
-        closeOnClickOutside: false,
-      }).then(() => router.replace("/"));
+      fetch("/api/setTemporaryScore", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          myScore: score,
+          myRealId,
+        }),
+      }).then(() => {
+        socket.emit("finish-game", {
+          playerOneId: contextQuizPVP.playersId.playerOneId,
+          playerTwoId: contextQuizPVP.playersId.playerTwoId,
+          myRealId,
+        });
+        setScore(0);
+      });
     }
   }, [time]);
 
@@ -89,7 +112,7 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
     <>
       <div
         className={`fixed top-0 left-0 w-full h-screen p-7 bg-[url(/images/bg-question.png)] object-cover startGameContainer flex flex-col items-center gap-12 ${
-          time <= 5 ? "startGameContainer--alert" : ""
+          time <= 10 ? "startGameContainer--alert" : ""
         }`}
       >
         <div className="w-full min-h-56 center p-12 bg-first shadow-lg text-black/70 text-3xl rounded-lg text-center font-bold">
@@ -124,15 +147,9 @@ const Quiz = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
             {answerFour}
           </div>
         </div>
-        <div
-          onClick={exist}
-          className="w-full h-16 center bg-red-500 rounded-lg text-first text-3xl font-bold active:scale-[99%] shadow-lg"
-        >
-          پایان بازی
-        </div>
       </div>
     </>
   );
 });
 
-export default Quiz;
+export default QuizPVP;

@@ -21,7 +21,6 @@ app.prepare().then(() => {
 
   httpServer
     .once("error", (err) => {
-      console.error(err);
       process.exit(1);
     })
     .listen(port, () => {

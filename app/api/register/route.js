@@ -27,6 +27,7 @@ export async function POST(req) {
       status: "online",
       playStatus: "notPlay",
       socketId: "",
+      temporaryScore: 0,
     });
 
     const token = generateToken({ userName }, process.env.privateKey);

@@ -52,40 +52,71 @@ export default async function socketFuncs(io, socket) {
   socket.on("startGame", async ({ myId }) => {
     try {
       await userModel.findOneAndUpdate({ _id: myId }, { playStatus: "wait" });
+      const myUserNameAndId = await userModel.findOne(
+        { _id: myId },
+        "userName"
+      );
+      const myUserName = myUserNameAndId.userName;
 
-      const findOpponent = async () => {
-        return await userModel.findOne(
+      const intervalId = setInterval(async () => {
+        const findPlayer = await userModel.findOne(
           {
             playStatus: "wait",
             _id: { $ne: myId },
           },
-          "socketId"
+          "socketId userName"
         );
-      };
-
-      const intervalId = setInterval(async () => {
-        const findPlayer = await findOpponent();
 
         if (findPlayer) {
-          clearInterval(intervalId);
+          socket.emit("game-found", {
+            playerOneId: findPlayer._id,
+            playerTwoId: myId,
+          });
 
-          socket.emit("game-found", { myId, youId: findPlayer._id });
-          socket
-            .to(findPlayer.socketId)
-            .emit("game-found", { myId, youId: findPlayer._id });
+          clearInterval(intervalId);
 
           await userModel.findOneAndUpdate(
             { _id: myId },
-            { playStatus: "playing" }
+            { playStatus: "wait" }
           );
           await userModel.findOneAndUpdate(
             { _id: findPlayer._id },
-            { playStatus: "playing" }
+            { playStatus: "wait" }
           );
         }
-      }, 2000);
-    } catch (error) {
-      console.error("خطا در پیدا کردن بازیکن:", error);
-    }
+      }, 1000);
+    } catch (error) {}
+  });
+
+  socket.on("finish-game", async ({ playerOneId, playerTwoId, myRealId }) => {
+    const myData = await userModel.findOne(
+      { _id: myRealId },
+      "temporaryScore socketId userName"
+    );
+
+    console.log("myData: ", myData);
+
+    const myScore = myData.temporaryScore;
+
+    const playerData = await userModel.findOne(
+      { _id: playerOneId },
+      "temporaryScore socketId"
+    );
+    const playerScore = playerData.temporaryScore;
+
+    console.log(myData.userName, playerScore);
+
+    myScore > playerScore
+      ? socket.emit("result-game", true)
+      : socket.emit("result-game", false);
+
+    await userModel.findOneAndUpdate(
+      { _id: playerOneId },
+      { playStatus: "notPlay" }
+    );
+    await userModel.findOneAndUpdate(
+      { _id: playerTwoId },
+      { playStatus: "notPlay" }
+    );
   });
 }

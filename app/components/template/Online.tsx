@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { memo } from "react";
 import { HashLoader } from "react-spinners";
 import { useSanitizeInput } from "@/utils/useSanitizeInput";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types";
 import { getSocketConnection } from "@/app/socket";
+import { context } from "@/utils/context";
 
 const Online = memo(({ meData }: { meData: UserType }) => {
+  const contextOnline = useContext<any>(context);
   const socket = getSocketConnection();
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -23,8 +25,15 @@ const Online = memo(({ meData }: { meData: UserType }) => {
   useEffect(() => {
     socket.on(
       "game-found",
-      async ({ myId, youId }: { myId: string; youId: string }) => {
-        await router.replace(`/pvp/${myId}/${youId}`);
+      async ({
+        playerOneId,
+        playerTwoId,
+      }: {
+        playerOneId: string;
+        playerTwoId: string;
+      }) => {
+        contextOnline.setPlayersId({ playerOneId, playerTwoId });
+        router.replace(`/pvp`);
       }
     );
 
@@ -50,7 +59,6 @@ const Online = memo(({ meData }: { meData: UserType }) => {
   const startGame = () => {
     socket.emit("startGame", { myId: meData._id });
   };
-  ``;
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-32">

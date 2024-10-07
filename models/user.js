@@ -24,6 +24,10 @@ const schema = new Schema({
   socketId: {
     type: String,
   },
+  temporaryScore: {
+    type: Number,
+    required: true,
+  },
 });
 
 const model = mongoose.models?.User || mongoose.model("User", schema);
