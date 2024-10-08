@@ -63,7 +63,7 @@ const Online = memo(({ meData }: { meData: UserType }) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-32">
-      <div className="w-full h-20 bg-black/5 rounded-xl flex items-center justify-between gap-8 px-6">
+      <div className="w-full h-20 bg-black/5 rounded-xl flex items-center justify-between gap-4 px-4">
         <Link href={`/chat/${search.trim()}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,8 +86,27 @@ const Online = memo(({ meData }: { meData: UserType }) => {
           onKeyPress={(e) => directTOChat(e)}
           onChange={(e) => setSearch(useSanitizeInput(e.target.value))}
           placeholder="نام کاربریه کاربر مورد نظر خود را بنویسید"
-          className="w-full h-full text-2xl font-bold text-first/80 bg-transparent p-0 rtl"
+          className="w-full h-full text-xl font-bold text-first/80 bg-transparent p-0 rtl"
         />
+        <Link
+          href={`/contacts/${meData.userName}`}
+          className="h-14 w-[4.5rem] rounded-full shadow-sm bg-first/10 center "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="size-8 stroke-white active:scale-95"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+            />
+          </svg>
+        </Link>
       </div>
       <div className="w-full flex flex-col items-center gap-8">
         <div className="size-[20rem] center rounded-full bg-gradient-to-bl from-[#22C55E] to-[#22C55E]/90 startButtonShadow active:scale-[98%]">
