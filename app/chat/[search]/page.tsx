@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { MoonLoader } from "react-spinners";
 import { useOnline } from "@/utils/useOnline";
 import { MessageType } from "@/types";
+import { UserType } from "@/types";
 
 const Page = memo(({ params }: { params: { search: string } }) => {
   const receiver = decodeURIComponent(params.search);
@@ -14,9 +15,10 @@ const Page = memo(({ params }: { params: { search: string } }) => {
   const socket = getSocketConnection();
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [sender, setSender] = useState("");
-  const [isOnline, setIsOnline] = useState("neutral");
+  const [isOnline, setIsOnline] = useState<boolean>(false);
   const [isExistUser, setIsExistUser] = useState(true);
   const [isPending, setIsPending] = useState(false);
+  const [meId, setMeId] = useState<string>("");
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,13 +31,18 @@ const Page = memo(({ params }: { params: { search: string } }) => {
     fetch("/api/me")
       .then((res) => res.json())
       .then((data) => {
+        setMeId(data._id);
         setSender(data.userName);
         getMessageHandler(data.userName, receiver);
       });
 
-    socket.on("onlineStatus", (data: Boolean) => {
-      //code
+    socket.on("onlineStatus", (data: boolean) => {
+      setIsOnline(data);
     });
+
+    return () => {
+      socket.emit("onlineStatus", { isOnlineUser: false, receiver });
+    };
   }, []);
 
   useEffect(() => {
@@ -43,6 +50,26 @@ const Page = memo(({ params }: { params: { search: string } }) => {
       messagesEndRef.current.scrollIntoView(false);
     }
   }, [messages]);
+
+  useEffect(() => {
+    const setsocketId = async () => {
+      if (meId) {
+        if (meId) {
+          await fetch("/api/setSocketId", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ meId: meId, socketId: socket.id }),
+          });
+        }
+      }
+      if (sender && isOnlineUser !== undefined) {
+        socket.emit("onlineStatus", { isOnlineUser, receiver });
+      }
+    };
+    setsocketId();
+  }, [isOnline, sender, meId]);
 
   const getMessageHandler = (sender: string, receiver: string) => {
     socket.emit("getMessages", { sender, receiver });
@@ -82,23 +109,12 @@ const Page = memo(({ params }: { params: { search: string } }) => {
     setMessage("");
   };
 
-  useEffect(() => {
-    if (sender && isOnlineUser !== undefined) {
-      socket.emit("onlineStatus", { isOnlineUser });
-    }
-  }, [isOnline, sender]);
-
   return isExistUser ? (
     <div className="w-full h-screen flex flex-col items-center justify-between">
       <div className="w-full h-24 px-8 flex items-center justify-between shadow-md bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
         <span className="text-2xl font-bold text-first/80">{receiver}</span>
         <div className="h-full flex items-center gap-3">
-          {isOnline === "neutral" ? (
-            <>
-              <div className="size-4 bg-gray-500 rounded-full shadow-md"></div>
-              <span className="text-xl font-bold text-first/60">online</span>
-            </>
-          ) : isOnline ? (
+          {isOnline ? (
             <>
               <div className="size-4 bg-green-600 rounded-full shadow-md"></div>
               <span className="text-xl font-bold text-first/60">online</span>

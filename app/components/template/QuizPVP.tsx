@@ -42,10 +42,6 @@ const QuizPVP = memo(({ questionsData }: { questionsData: [QuestionType] }) => {
   };
 
   useEffect(() => {
-    console.log("score: ", score);
-  }, [score]);
-
-  useEffect(() => {
     fetch("/api/setPlayerStatusPlay", {
       method: "PUT",
       headers: {

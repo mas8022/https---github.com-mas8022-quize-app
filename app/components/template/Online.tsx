@@ -37,23 +37,6 @@ const Online = memo(({ meData }: { meData: UserType }) => {
       }
     );
 
-    if (meData._id) {
-      socket.on("connect", () => {
-        if (meData._id) {
-          fetch("/api/setSocketId", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ meId: meData._id, socketId: socket.id }),
-          });
-        }
-      });
-
-      return () => {
-        socket.off("connect");
-      };
-    }
   }, []);
 
   const startGame = () => {

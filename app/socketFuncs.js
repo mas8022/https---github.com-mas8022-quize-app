@@ -42,13 +42,6 @@ export default async function socketFuncs(io, socket) {
       .emit("allMessages", messages);
   });
 
-  socket.on("onlineStatus", ({ isOnlineUser }) => {
-    socket.broadcast
-      .to(`${sender}-${receiver}`)
-      .to(`${receiver}-${sender}`)
-      .emit("onlineStatus", isOnlineUser);
-  });
-
   socket.on("startGame", async ({ myId }) => {
     try {
       await userModel.findOneAndUpdate({ _id: myId }, { playStatus: "wait" });
@@ -102,8 +95,6 @@ export default async function socketFuncs(io, socket) {
     );
     const playerScore = playerData.temporaryScore;
 
-    console.log(myData.userName, playerScore);
-
     if (myScore > playerScore) {
       await userModel.findOneAndUpdate(
         { _id: myRealId },
@@ -122,5 +113,14 @@ export default async function socketFuncs(io, socket) {
       { _id: playerTwoId },
       { playStatus: "notPlay" }
     );
+  });
+
+  socket.on("onlineStatus", async ({ isOnlineUser, receiver }) => {
+    const userData = await userModel.findOne(
+      { userName: receiver },
+      "socketId"
+    );
+    const userSocketId = userData.socketId;
+    io.to(userSocketId).emit("onlineStatus", isOnlineUser);
   });
 }

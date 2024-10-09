@@ -25,8 +25,6 @@ const page = memo(async ({ params }: { params: { myUserName: string } }) => {
 
   const contacts: string[] = Object.keys(uniqueContactsObj);
 
-  console.log(contacts);
-
   return <ContactsBody contactsData={JSON.parse(JSON.stringify(contacts))} />;
 });
 
