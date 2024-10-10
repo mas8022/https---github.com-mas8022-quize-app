@@ -6,10 +6,8 @@ connectToDb();
 
 export default async function socketFuncs(io, socket) {
   socket.on("sendMessage", async ({ sender, receiver, message }) => {
-    // Zakhire kardane payam dar database
     await messageModel.create({ sender, receiver, message });
 
-    // Peyda kardan hameye payam-haye beyne do fard
     const messages = await messageModel.find({
       $or: [
         { sender, receiver },
@@ -17,7 +15,6 @@ export default async function socketFuncs(io, socket) {
       ],
     });
 
-    // Peygham ro be room haye marbut ferestadan
     io.to(`${sender}-${receiver}`)
       .to(`${receiver}-${sender}`)
       .emit("allMessages", messages);
