@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/user.js", "models/question.js", "app/components/template/registerForm.tsx", "app/components/template/selectMode.tsx", "app/components/template/offline.ts", "app/components/template/confirmQuestion.tsx", "app/createQuestion/page.tsx", "app/cms/page.tsx", "server.js", "app/components/template/Quiz.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/user.js", "models/question.js", "app/components/template/registerForm.tsx", "app/components/template/selectMode.tsx", "app/components/template/offline.ts", "app/components/template/confirmQuestion.tsx", "app/createQuestion/page.tsx", "app/cms/page.tsx", "server.js", "app/components/template/Quiz.tsx", "utils/useLongPress.ts"],
   "exclude": ["node_modules"]
 }

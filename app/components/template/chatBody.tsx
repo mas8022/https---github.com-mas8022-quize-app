@@ -1,7 +1,7 @@
-"use client";
 import Image from "next/image";
 import React, { memo, RefObject } from "react";
 import { MessageType } from "@/types";
+import { useLongPress } from "@/utils/useLongPress";
 
 const ChatBody = memo(
   ({
@@ -13,6 +13,10 @@ const ChatBody = memo(
     messagesEndRef: RefObject<HTMLDivElement>;
     sender: string;
   }) => {
+    const handleLongPress = (id: string) => {
+      alert(`Message ID: ${id}`); // code
+    };
+
     return (
       <div
         className="chat-body w-full h-full px-8 pt-8 object-cover overflow-y-scroll flex flex-col gap-8"
@@ -32,7 +36,14 @@ const ChatBody = memo(
                   alt="message picture"
                 />
               ) : (
-                <div className="bg-gradient-to-r max-w-[20rem] p-4 from-[#42ff5e] to-[#22c55e] rounded-lg shadow-lg text-2xl font-bold text-first/90">
+                <div
+                  {...useLongPress(
+                    () => handleLongPress(item._id),
+                    item._id,
+                    2000
+                  )} // ارسال id پیام به هوک
+                  className="bg-gradient-to-r max-w-[20rem] p-4 from-[#42ff5e] to-[#22c55e] rounded-lg shadow-lg text-2xl font-bold text-first/90"
+                >
                   {item.message}
                 </div>
               )}

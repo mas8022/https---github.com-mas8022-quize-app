@@ -73,8 +73,6 @@ const Page = ({ params }: { params: { search: string } }) => {
 
   useEffect(() => {
     return () => {
-      console.log("result: ", { isOnlineUser: false, receiver, sender });
-
       if (sender && isOnlineUser !== undefined) {
         socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
       }

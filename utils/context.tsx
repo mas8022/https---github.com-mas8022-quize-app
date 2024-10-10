@@ -1,12 +1,14 @@
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useState, ReactNode } from "react";
 
-const context = createContext();
+interface ContextType {
+  playersId: Record<string, any>;
+  setPlayersId: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+}
+const context = createContext<ContextType | undefined>(undefined);
 
-import React from "react";
-
-const ContextProvider = ({ children }: { children: any }) => {
-  const [playersId, setPlayersId] = useState({});
+const ContextProvider = ({ children }: { children: ReactNode }) => {
+  const [playersId, setPlayersId] = useState<Record<string, any>>({});
 
   return (
     <context.Provider value={{ playersId, setPlayersId }}>
