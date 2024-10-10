@@ -115,12 +115,12 @@ export default async function socketFuncs(io, socket) {
     );
   });
 
-  socket.on("onlineStatus", async ({ isOnlineUser, receiver }) => {
+  socket.on("onlineStatus", async ({ isOnlineUser, receiver, sender }) => {
     const userData = await userModel.findOne(
       { userName: receiver },
       "socketId"
     );
     const userSocketId = userData.socketId;
-    io.to(userSocketId).emit("onlineStatus", isOnlineUser);
+    io.to(userSocketId).emit("onlineStatus", { isOnlineUser, sender });
   });
 }

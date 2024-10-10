@@ -1,5 +1,5 @@
 "use client";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSanitizeInput } from "@/utils/useSanitizeInput";
 import { getSocketConnection } from "../../socket.js";
 import ChatBody from "@/app/components/template/chatBody";
@@ -7,9 +7,8 @@ import toast from "react-hot-toast";
 import { MoonLoader } from "react-spinners";
 import { useOnline } from "@/utils/useOnline";
 import { MessageType } from "@/types";
-import { UserType } from "@/types";
 
-const Page = memo(({ params }: { params: { search: string } }) => {
+const Page = ({ params }: { params: { search: string } }) => {
   const receiver = decodeURIComponent(params.search);
   const [message, setMessage] = useState("");
   const socket = getSocketConnection();
@@ -36,13 +35,14 @@ const Page = memo(({ params }: { params: { search: string } }) => {
         getMessageHandler(data.userName, receiver);
       });
 
-    socket.on("onlineStatus", (data: boolean) => {
-      setIsOnline(data);
-    });
-
-    return () => {
-      socket.emit("onlineStatus", { isOnlineUser: false, receiver });
-    };
+    socket.on(
+      "onlineStatus",
+      (data: { isOnlineUser: boolean; sender: string }) => {
+        if (data.sender === receiver) {
+          setIsOnline(data.isOnlineUser);
+        }
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -65,11 +65,21 @@ const Page = memo(({ params }: { params: { search: string } }) => {
         }
       }
       if (sender && isOnlineUser !== undefined) {
-        socket.emit("onlineStatus", { isOnlineUser, receiver });
+        socket.emit("onlineStatus", { isOnlineUser, receiver, sender });
       }
     };
     setsocketId();
   }, [isOnline, sender, meId]);
+
+  useEffect(() => {
+    return () => {
+      console.log("result: ", { isOnlineUser: false, receiver, sender });
+
+      if (sender && isOnlineUser !== undefined) {
+        socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
+      }
+    };
+  }, [sender]);
 
   const getMessageHandler = (sender: string, receiver: string) => {
     socket.emit("getMessages", { sender, receiver });
@@ -232,6 +242,6 @@ const Page = memo(({ params }: { params: { search: string } }) => {
       </div>
     </div>
   );
-});
+};
 
 export default Page;
