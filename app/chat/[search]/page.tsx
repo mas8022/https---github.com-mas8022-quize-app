@@ -65,6 +65,8 @@ const Page = ({ params }: { params: { search: string } }) => {
         }
       }
       if (sender && isOnlineUser !== undefined) {
+        console.log("one", isOnlineUser);
+        
         socket.emit("onlineStatus", { isOnlineUser, receiver, sender });
       }
     };
@@ -74,6 +76,7 @@ const Page = ({ params }: { params: { search: string } }) => {
   useEffect(() => {
     return () => {
       if (sender && isOnlineUser !== undefined) {
+
         socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
       }
     };
