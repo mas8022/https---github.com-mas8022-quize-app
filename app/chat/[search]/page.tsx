@@ -140,6 +140,8 @@ const Page = ({ params }: { params: { search: string } }) => {
         messages={messages}
         messagesEndRef={messagesEndRef}
         sender={sender}
+        receiver={receiver}
+        setMessages={setMessages}
       />
 
       <div className="w-full px-7 py-6 chatToolsShadow flex items-center justify-between gap-4 bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">

@@ -1,20 +1,47 @@
+"use client";
 import Image from "next/image";
 import React, { memo, RefObject } from "react";
 import { MessageType } from "@/types";
 import { useLongPress } from "@/utils/useLongPress";
+import swal from "sweetalert";
+import { getSocketConnection } from "@/app/socket";
 
 const ChatBody = memo(
   ({
     messages,
     messagesEndRef,
     sender,
+    receiver,
+    setMessages,
   }: {
     messages: MessageType[];
     messagesEndRef: RefObject<HTMLDivElement>;
     sender: string;
+    receiver: string;
+    setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
   }) => {
-    const handleLongPress = (id: string) => {
-      alert(`Message ID: ${id}`); // code
+    const socket = getSocketConnection();
+
+    const handleLongPress = (id: string, message: string) => {
+      swal({
+        icon: "warning",
+        title: "ایا از حذف پیام مطمعن هستید?",
+        text: message !== "" && message,
+        buttons: ["لغو", "تایید"],
+      }).then(async (res) => {
+        if (res) {
+          await fetch(`/api/message/${id}`, { method: "DELETE" });
+          socket.emit("getMessages", { sender, receiver });
+          socket.on("allMessages", (data: MessageType[]) => {
+            // setMessages(data);
+            console.log(data);
+          });
+        }
+      });
+    };
+
+    const getLongPressEvents = (id: string, message: string) => {
+      return useLongPress(() => handleLongPress(id, message), 500);
     };
 
     return (
@@ -30,6 +57,7 @@ const ChatBody = memo(
             >
               {item.message.slice(0, 16) === "https://maghaleh" ? (
                 <Image
+                  {...getLongPressEvents(item._id, " ")}
                   src={item.message}
                   width={200}
                   height={400}
@@ -37,11 +65,7 @@ const ChatBody = memo(
                 />
               ) : (
                 <div
-                  {...useLongPress(
-                    () => handleLongPress(item._id),
-                    item._id,
-                    2000
-                  )} // ارسال id پیام به هوک
+                  {...getLongPressEvents(item._id, item.message)}
                   className="bg-gradient-to-r max-w-[20rem] p-4 from-[#42ff5e] to-[#22c55e] rounded-lg shadow-lg text-2xl font-bold text-first/90"
                 >
                   {item.message}
