@@ -120,4 +120,6 @@ export default async function socketFuncs(io, socket) {
     const userSocketId = userData.socketId;
     io.to(userSocketId).emit("onlineStatus", { isOnlineUser, sender });
   });
+
+
 }

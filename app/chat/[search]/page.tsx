@@ -7,14 +7,14 @@ import toast from "react-hot-toast";
 import { MoonLoader } from "react-spinners";
 import { useOnline } from "@/utils/useOnline";
 import { MessageType } from "@/types";
-
+import { useLocalStorage } from "@/utils/useLocalStorage";
 const Page = ({ params }: { params: { search: string } }) => {
   const receiver = decodeURIComponent(params.search);
   const [message, setMessage] = useState("");
   const socket = getSocketConnection();
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [sender, setSender] = useState("");
-  const [isOnline, setIsOnline] = useState<boolean>(false);
+  const [isOnline, setIsOnline] = useLocalStorage<boolean>("isOnline", false);
   const [isExistUser, setIsExistUser] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [meId, setMeId] = useState<string>("");
@@ -65,8 +65,6 @@ const Page = ({ params }: { params: { search: string } }) => {
         }
       }
       if (sender && isOnlineUser !== undefined) {
-        console.log("one", isOnlineUser);
-        
         socket.emit("onlineStatus", { isOnlineUser, receiver, sender });
       }
     };
@@ -76,7 +74,6 @@ const Page = ({ params }: { params: { search: string } }) => {
   useEffect(() => {
     return () => {
       if (sender && isOnlineUser !== undefined) {
-
         socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
       }
     };

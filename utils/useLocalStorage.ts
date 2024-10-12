@@ -1,22 +1,23 @@
+"use client"
 import { useEffect, useState } from "react";
 
-const useLocalStorage = (key: string, initialValue: string) => {
-  const [state, setState] = useState<any>(null);
-  const [isPending, setIsPending] = useState<Boolean>(true);
+export const useLocalStorage = <T>(key: string, initialValue: T) => {
+  const [state, setState] = useState<T | null>(null);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
-  const handleSetState = (value: any) => {
+  const handleSetState = (value: T) => {
     localStorage.setItem(key, JSON.stringify(value));
     setState(value);
   };
 
   useEffect(() => {
     const storedValue = localStorage.getItem(key);
-    let value;
+    let value: T;
 
     try {
-      value = storedValue ? JSON.parse(storedValue) : null;
+      value = storedValue ? JSON.parse(storedValue) : initialValue;
     } catch (e) {
-      value = null;
+      value = initialValue;
     }
 
     if (value === null || value === undefined) {
@@ -28,7 +29,5 @@ const useLocalStorage = (key: string, initialValue: string) => {
     setIsPending(false);
   }, [key, initialValue]);
 
-  return [state, handleSetState, isPending];
+  return [state, handleSetState, isPending] as const;
 };
-
-export { useLocalStorage };
