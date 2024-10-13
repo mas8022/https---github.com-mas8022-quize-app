@@ -43,6 +43,24 @@ const Page = ({ params }: { params: { search: string } }) => {
         }
       }
     );
+
+    
+
+    // const handleTabClose = () => {
+    //   socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
+    // };
+    // window.addEventListener("beforeunload", handleTabClose);
+    // return () => {
+    //   window.removeEventListener("beforeunload", handleTabClose);
+    // };
+
+
+
+
+
+
+
+
   }, []);
 
   useEffect(() => {
@@ -118,7 +136,7 @@ const Page = ({ params }: { params: { search: string } }) => {
   };
 
   return isExistUser ? (
-    <div className="w-full h-screen flex flex-col items-center justify-between">
+    <div className="w-full h-full flex flex-col items-center justify-start">
       <div className="w-full h-24 px-8 flex items-center justify-between shadow-md bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
         <span className="text-2xl font-bold text-first/80">{receiver}</span>
         <div className="h-full flex items-center gap-3">
@@ -144,7 +162,7 @@ const Page = ({ params }: { params: { search: string } }) => {
         setMessages={setMessages}
       />
 
-      <div className="w-full px-7 py-6 chatToolsShadow flex items-center justify-between gap-4 bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
+      <div className="w-full h-32 px-7 py-6 chatToolsShadow flex items-center justify-between gap-4 bg-gradient-to-r from-[#944cffc3] to-[#6d28d9]">
         <div className="w-full h-full bg-black/15 shadow-md px-6 flex items-center justify-between rounded-full gap-4">
           <input
             type="text"

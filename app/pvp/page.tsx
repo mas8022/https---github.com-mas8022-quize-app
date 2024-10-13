@@ -3,8 +3,7 @@ import React, { memo, useEffect, useState } from "react";
 import QuizPVP from "@/app/components/template/QuizPVP";
 
 const page = memo(() => {
-  // const [gameTime, setGameTime] = useState(70);
-  const [gameTime, setGameTime] = useState(63);
+  const [gameTime, setGameTime] = useState(70);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
