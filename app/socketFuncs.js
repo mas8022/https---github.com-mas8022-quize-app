@@ -111,8 +111,6 @@ export default async function socketFuncs(io, socket) {
   });
 
   socket.on("onlineStatus", async ({ isOnlineUser, receiver, sender }) => {
-    console.log({ isOnlineUser, receiver, sender });
-
     const userData = await userModel.findOne(
       { userName: receiver },
       "socketId"
