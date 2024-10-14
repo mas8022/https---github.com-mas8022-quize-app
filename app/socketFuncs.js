@@ -34,9 +34,7 @@ export default async function socketFuncs(io, socket) {
       "-__v -updatedAt"
     );
 
-    io.to(`${sender}-${receiver}`)
-      .to(`${receiver}-${sender}`)
-      .emit("allMessages", messages);
+    io.to(socket.id).emit("allMessages", messages);
   });
 
   socket.on("startGame", async ({ myId }) => {
@@ -113,6 +111,8 @@ export default async function socketFuncs(io, socket) {
   });
 
   socket.on("onlineStatus", async ({ isOnlineUser, receiver, sender }) => {
+    console.log({ isOnlineUser, receiver, sender });
+
     const userData = await userModel.findOne(
       { userName: receiver },
       "socketId"
@@ -120,6 +120,4 @@ export default async function socketFuncs(io, socket) {
     const userSocketId = userData.socketId;
     io.to(userSocketId).emit("onlineStatus", { isOnlineUser, sender });
   });
-
-  
 }

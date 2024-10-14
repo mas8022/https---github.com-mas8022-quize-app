@@ -9,6 +9,7 @@ import { useOnline } from "@/utils/useOnline";
 import { MessageType } from "@/types";
 import { useLocalStorage } from "@/utils/useLocalStorage";
 const Page = ({ params }: { params: { search: string } }) => {
+  let senderData: string = ""
   const receiver = decodeURIComponent(params.search);
   const [message, setMessage] = useState("");
   const socket = getSocketConnection();
@@ -32,6 +33,7 @@ const Page = ({ params }: { params: { search: string } }) => {
       .then((data) => {
         setMeId(data._id);
         setSender(data.userName);
+        senderData = data.userName
         getMessageHandler(data.userName, receiver);
       });
 
@@ -44,23 +46,20 @@ const Page = ({ params }: { params: { search: string } }) => {
       }
     );
 
-    
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender: senderData });
+      }else{
+        socket.emit("onlineStatus", { isOnlineUser: true, receiver, sender: senderData });
 
-    // const handleTabClose = () => {
-    //   socket.emit("onlineStatus", { isOnlineUser: false, receiver, sender });
-    // };
-    // window.addEventListener("beforeunload", handleTabClose);
-    // return () => {
-    //   window.removeEventListener("beforeunload", handleTabClose);
-    // };
+      }
+    };
 
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-
-
-
-
-
-
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   useEffect(() => {
