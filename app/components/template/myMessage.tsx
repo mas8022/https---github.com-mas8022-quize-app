@@ -20,9 +20,8 @@ const MyMessage = ({
 
   const deleteMessage = () => {
     swal({
-      icon: "warning",
-      title: "ایا از حذف پیام مطمعن هستید?",
-      text: message !== "" ? message : undefined,
+
+      text: ` ${message} ?ایا از حذف پیام مطمعن هستید`,
       buttons: ["لغو", "تایید"],
     }).then(async (res) => {
       if (res) {

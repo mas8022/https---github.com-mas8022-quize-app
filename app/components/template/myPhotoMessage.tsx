@@ -22,9 +22,7 @@ const MyPhotoMessage = ({
   
   const deleteMessage = () => {
     swal({
-      icon: "warning",
-      title: "ایا از حذف پیام مطمعن هستید?",
-      text: message !== "" ? message : undefined,
+      text: "ایا از حذف عکس مطمعن هستید?",
       buttons: ["لغو", "تایید"],
     }).then(async (res) => {
       if (res) {
